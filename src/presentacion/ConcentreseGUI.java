@@ -1,10 +1,7 @@
 package presentacion;
 
 import javax.swing.*;
-import javax.swing.BorderFactory; 
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.lang.Thread;
@@ -30,14 +27,14 @@ public class ConcentreseGUI extends JFrame{
 	
 	
 	//Componentes Nivel 1
-	private JPanel panelPrincipal;
 	private JPanel panelJugadores;
 	private JPanel panelTablero;
 	private JPanel panelBotones;
 	
 	//Elementos Tablero
 	private JPanel tablero;
-	
+	private int filas=8;
+	private int columnas=8;
 	
 	private ConcentreseGUI(){
 		prepareElementos();
@@ -45,20 +42,30 @@ public class ConcentreseGUI extends JFrame{
 		//concentrese= new Concentrese();
 		//inicie();
 	}
+
+	//main
 	public static void main(String[] args){
 		ConcentreseGUI concen= new ConcentreseGUI();
 		concen.setVisible(true);
 	}
+
+	//elementos visuales
+
 	private void prepareElementos(){
-		setLayout(new BorderLayout(20,20));
+		setLayout(new BorderLayout(3,3));
 		Dimension screen=Toolkit.getDefaultToolkit().getScreenSize();
 		setTitle("Concentrese");
 		setSize(screen.width/2,screen.height/2);
 		centre();
 		elementosMenu();
-		elementosPanelPrincipal();
+		elementosPanelJugadores();
+		elementosPanelTablero();
+		elementosPanelBotones();
 
 	}
+
+	//oyentes
+
 	private void prepareAcciones(){
 		this.addWindowListener (
 			new WindowAdapter(){
@@ -75,55 +82,55 @@ public class ConcentreseGUI extends JFrame{
 			}
 		);
 	}
+
+
+
 	public void cerrarVentana(){
-			if(JOptionPane.showConfirmDialog(null, "¿Estas seguro?")== JOptionPane.OK_OPTION){
+			if(JOptionPane.showConfirmDialog(null, "Â¿Estas seguro?")== JOptionPane.OK_OPTION){
 							setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			}else{
 				setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			}
 	}
 	public void salir(){
-		if(JOptionPane.showConfirmDialog(null, "¿Estas seguro?")== JOptionPane.OK_OPTION)
+		if(JOptionPane.showConfirmDialog(null, "Â¿Estas seguro?")== JOptionPane.OK_OPTION)
 			System.exit(0);
 		}
-	private void elementosPanelPrincipal(){
-		panelPrincipal = new JPanel();
-		panelPrincipal.setLayout(new BorderLayout(20,20));
-		elementosPanelJugadores();
-		elementosPanelTablero();
-		elementosPanelBotones();
-		add(panelPrincipal);
-	}
 	private void elementosPanelJugadores(){
 		panelJugadores= new JPanel();
-		Border redline = BorderFactory.createLineBorder(Color.red);
-		panelJugadores.setBorder(redline);
+		//Border redline = BorderFactory.createLineBorder(Color.red);
+		//panelJugadores.setBorder(redline);
+		panelJugadores.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
 		panelJugadores.setLayout(new BorderLayout());
-		panelPrincipal.add(panelJugadores, BorderLayout.NORTH);
+		panelJugadores.add(new Button("prueba"));
+		add(panelJugadores, BorderLayout.NORTH);
 	}
 	private void elementosPanelTablero(){
 		panelTablero= new JPanel();
-		Border redline = BorderFactory.createLineBorder(Color.red);
-		panelTablero.setBorder(redline);
-		panelTablero.setLayout(new BorderLayout(70,70));
+		//Border redline = BorderFactory.createLineBorder(Color.red);
+		//panelTablero.setBorder(redline);
+		panelTablero.setLayout(new BorderLayout(10,10));
 		tablero= new JPanel();
-		tablero.setLayout(new GridLayout(8,8,1,1));
-		tablero.setBorder(redline);
-		JButton no= new JButton("pru");
-		JButton nso= new JButton("prus");
-		tablero.add(no);
-		tablero.add(nso);
+		tablero.setBorder(BorderFactory.createEmptyBorder(5,300,5,300));
+		tablero.setLayout(new GridLayout(filas,columnas,1,1));
+		//tablero.setBorder(redline);
+		refresque();
 		panelTablero.add(tablero);
-		panelPrincipal.add(panelTablero,BorderLayout.CENTER);
+		add(panelTablero,BorderLayout.CENTER);
 	}
 	private void elementosPanelBotones(){
 		panelBotones= new JPanel();
-		Border redline = BorderFactory.createLineBorder(Color.red);
-		panelBotones.setBorder(redline);
+		//Border redline = BorderFactory.createLineBorder(Color.red);
+		//panelBotones.setBorder(redline);
 		panelBotones.setLayout(new GridLayout(1,3,3,3));
-		panelPrincipal.add(panelBotones,BorderLayout.SOUTH);
+		add(panelBotones,BorderLayout.SOUTH);
 	}
-	
+	private void refresque(){
+	for(int j=0;j<columnas;j++)
+		for (int i=0;i<filas;i++){
+			tablero.add(new Button());
+		}
+	}
 	
 	
 	private void elementosMenu(){
@@ -150,6 +157,7 @@ public class ConcentreseGUI extends JFrame{
 		int xEsquina=(screen.width - getSize().width)/2;
 		int yEsquina= (screen.height - getSize().height) /2;
 		setLocation(xEsquina, yEsquina);
+		
 	}
 }
 
