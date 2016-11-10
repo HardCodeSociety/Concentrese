@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.lang.Thread;
 import java.io.*;
-
+import java.util.*;
 
 //import aplicacion.*;
 public class ConcentreseGUI extends JFrame{
@@ -31,10 +31,26 @@ public class ConcentreseGUI extends JFrame{
 	private JPanel panelTablero;
 	private JPanel panelBotones;
 	
+	//ELementos Jugadores
+	private String nombreJugador1="Pardo";
+	private String nombreJugador2="Vaca";
+	private JLabel jugador1;
+	private JLabel jugador2;
+	private JTextField puntaje1;
+	private JTextField puntaje2;
+	private Color color1=Color.red;
+	private Color color2=Color.blue;
+	
 	//Elementos Tablero
 	private JPanel tablero;
 	private int filas=8;
 	private int columnas=8;
+	private ArrayList<JButton> botones;
+	
+	//Elementos Botones
+	private JButton reiniciar;
+	private JButton modificar;
+	private JButton redimensionar;
 	
 	private ConcentreseGUI(){
 		prepareElementos();
@@ -98,37 +114,52 @@ public class ConcentreseGUI extends JFrame{
 		}
 	private void elementosPanelJugadores(){
 		panelJugadores= new JPanel();
-		//Border redline = BorderFactory.createLineBorder(Color.red);
-		//panelJugadores.setBorder(redline);
-		panelJugadores.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-		panelJugadores.setLayout(new BorderLayout());
-		panelJugadores.add(new Button("prueba"));
+		panelJugadores.setBorder(BorderFactory.createEmptyBorder(10,320,10,320));
+		panelJugadores.setLayout(new GridLayout(1,4,7,7));
+		jugador1= new JLabel(nombreJugador1,JLabel.CENTER);
+		jugador1.setForeground(color1);
+		jugador2= new JLabel(nombreJugador2,JLabel.CENTER);
+		jugador2.setForeground(color2);
+		puntaje1= new JTextField("0");
+		puntaje1.setEditable(false);
+		puntaje2= new JTextField("0");
+		puntaje2.setEditable(false);
+		panelJugadores.add(jugador1);
+		panelJugadores.add(puntaje1);
+		panelJugadores.add(jugador2);
+		panelJugadores.add(puntaje2);
 		add(panelJugadores, BorderLayout.NORTH);
 	}
 	private void elementosPanelTablero(){
 		panelTablero= new JPanel();
-		//Border redline = BorderFactory.createLineBorder(Color.red);
-		//panelTablero.setBorder(redline);
 		panelTablero.setLayout(new BorderLayout(10,10));
 		tablero= new JPanel();
 		tablero.setBorder(BorderFactory.createEmptyBorder(5,300,5,300));
 		tablero.setLayout(new GridLayout(filas,columnas,1,1));
-		//tablero.setBorder(redline);
 		refresque();
 		panelTablero.add(tablero);
 		add(panelTablero,BorderLayout.CENTER);
 	}
 	private void elementosPanelBotones(){
 		panelBotones= new JPanel();
-		//Border redline = BorderFactory.createLineBorder(Color.red);
-		//panelBotones.setBorder(redline);
 		panelBotones.setLayout(new GridLayout(1,3,3,3));
+		panelBotones.setBorder(BorderFactory.createEmptyBorder(5,100,5,100));
+		modificar =new JButton("Modificar Jugadores");
+		redimensionar=new JButton("Modificar Tablero");
+		reiniciar=new JButton("Reiniciar Juego");
+		panelBotones.add(modificar);
+		panelBotones.add(redimensionar);
+		panelBotones.add(reiniciar);
 		add(panelBotones,BorderLayout.SOUTH);
+		
 	}
 	private void refresque(){
-	for(int j=0;j<columnas;j++)
-		for (int i=0;i<filas;i++){
-			tablero.add(new Button());
+		botones = new ArrayList<JButton>();
+		for(int j=0;j<columnas;j++)
+			for (int i=0;i<filas;i++){
+				JButton boton=new JButton();
+				tablero.add(boton);
+				botones.add(boton);
 		}
 	}
 	
