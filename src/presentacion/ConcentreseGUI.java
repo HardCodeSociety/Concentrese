@@ -16,6 +16,8 @@ public class ConcentreseGUI extends JFrame{
 	
 	//Componentes de Menu
 	private JMenu archivo;
+	private JFileChooser abrirArchivo;
+	private JFileChooser salvar;
 	
 	
 	//Componentes Archivo
@@ -92,26 +94,56 @@ public class ConcentreseGUI extends JFrame{
 		);
 		salir.addActionListener(
 			new  ActionListener(){
-			public void actionPerformed(ActionEvent e){
+				public void actionPerformed(ActionEvent e){
 				salir();
 				}
 			}
 		);
+		abrir.addActionListener(
+			new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					abrir();
+				} 
+			}
+		);
+		guardar.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						salvar();
+					} 
+				}
+			);
 	}
 
 
-
 	public void cerrarVentana(){
-			if(JOptionPane.showConfirmDialog(null, "¿Estas seguro?")== JOptionPane.OK_OPTION){
+			if(JOptionPane.showConfirmDialog(null, "Estas seguro?")== JOptionPane.OK_OPTION){
 							setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			}else{
 				setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			}
 	}
 	public void salir(){
-		if(JOptionPane.showConfirmDialog(null, "¿Estas seguro?")== JOptionPane.OK_OPTION)
+		if(JOptionPane.showConfirmDialog(null, " Estas seguro?")== JOptionPane.OK_OPTION)
 			System.exit(0);
 		}
+	public void abrir(){
+		abrirArchivo= new JFileChooser();
+		int desicion = abrirArchivo.showOpenDialog(this);
+		if (desicion == JFileChooser.APPROVE_OPTION) {
+            File file = abrirArchivo.getSelectedFile();
+            JOptionPane.showMessageDialog(null,"Abrir esta en construccion. El archivo seleccionado es:  "+file.getName() );
+		}	
+	}
+	public void salvar(){
+		salvar= new JFileChooser();
+		int desicion = salvar.showSaveDialog(this);
+		if (desicion == JFileChooser.APPROVE_OPTION) {
+            File file = salvar.getSelectedFile();
+            JOptionPane.showMessageDialog(null,"Guardar esta en construccion. El archivo seleccionado es:  "+file.getName() );
+		}	
+	}
+	
 	private void elementosPanelJugadores(){
 		panelJugadores= new JPanel();
 		panelJugadores.setBorder(BorderFactory.createEmptyBorder(10,320,10,320));
