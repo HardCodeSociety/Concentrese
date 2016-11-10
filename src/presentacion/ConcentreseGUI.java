@@ -54,6 +54,9 @@ public class ConcentreseGUI extends JFrame{
 	private JButton modificar;
 	private JButton redimensionar;
 	
+	//Elementos modificar
+	private JColorChooser cambiarColores;
+	
 	private ConcentreseGUI(){
 		prepareElementos();
 		prepareAcciones	();
@@ -113,6 +116,13 @@ public class ConcentreseGUI extends JFrame{
 					} 
 				}
 			);
+		modificar.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						modificar();
+					}
+				}	
+			);
 	}
 
 
@@ -136,6 +146,7 @@ public class ConcentreseGUI extends JFrame{
 		}	
 	}
 	public void salvar(){
+		
 		salvar= new JFileChooser();
 		int desicion = salvar.showSaveDialog(this);
 		if (desicion == JFileChooser.APPROVE_OPTION) {
@@ -144,6 +155,14 @@ public class ConcentreseGUI extends JFrame{
 		}	
 	}
 	
+	public void modificar(){
+		cambiarColores= new JColorChooser();
+		String[] options={"Pardo","Vaca"};
+		int desicion = JOptionPane.showOptionDialog(null, "Cual jugador desea modificar ?","Elige una opcion",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,null); 
+		if (desicion ==0){ 
+			
+		}
+		}
 	private void elementosPanelJugadores(){
 		panelJugadores= new JPanel();
 		panelJugadores.setBorder(BorderFactory.createEmptyBorder(10,320,10,320));
