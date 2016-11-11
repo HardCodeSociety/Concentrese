@@ -74,7 +74,7 @@ public class PartidaTest {
         assertEquals("No es el ganador",pardo,partida.ganador());
         respuesta=partida.escoger("casa","casa");
         respuesta=partida.escoger("perro","perro");
-        assertEquals("No es el ganador",vaca,partida.turno());
+        assertEquals("No es el ganador","Vaca",partida.turno());
     }
     @Test
     public void deberiaRetornarNullEnCasoDeEmpate(){
@@ -84,6 +84,8 @@ public class PartidaTest {
         boolean respuesta=partida.escoger("casa","casa");
         assertEquals("No es el ganador",pardo,partida.ganador());
         respuesta=partida.escoger("casa","casa");
+        assertEquals("prueba",1,partida.puntajes()[0]);
+         assertEquals("prueba",0,partida.puntajes()[1]);
         assertEquals("No es el ganador",null,partida.turno());
     }
     @Test

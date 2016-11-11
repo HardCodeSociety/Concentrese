@@ -160,14 +160,18 @@ public class ConcentreseGUI extends JFrame{
 		String[] options={"Pardo","Vaca","Cancelar"};
 		int desicion = JOptionPane.showOptionDialog(null, "Cual jugador desea modificar ?","Elige una opcion",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,null); 
 		if (desicion ==0){ 
+			Color originalColor=color1;
 			color1=cambiarColores.showDialog(null,"selecione un color",Color.gray);
+			if(color1==null)color1=originalColor;
 			if (!color1.equals(color2)){
 				jugador1.setForeground(color1);
 			}else{
 				JOptionPane.showMessageDialog(null,"El jugador "+nombreJugador2+" ya tiene asignado este color");
 			}
 		}else if(desicion==1){
-			color2=cambiarColores.showDialog(null,"selecione un color",Color.gray);			
+			Color originalColor=color1;
+			color2=cambiarColores.showDialog(null,"selecione un color",Color.gray);
+			if(color1==null)color1=originalColor;			
 			if (!color1.equals(color2)){
 				jugador2.setForeground(color2);
 			}else{
