@@ -252,24 +252,7 @@ public class ConcentreseGUI extends JFrame{
 		for (int i=0;i<50;i++){
 			imagenes.add(Integer.toString(i)+".jpg");
 		}
-		relaciones=new HashMap<JButton,String>();
-		ArrayList<Integer> numeros=new ArrayList<Integer>(); 
-		for (int i=0;i<50;i++){
-			int numero=(int) (rnd.nextDouble()* filas*columnas);
-			while (numeros.contains(numero)){
-				 numero=(int) (rnd.nextDouble()* filas*columnas);
-			}
-			numeros.add(numero);
-			relaciones.put(botones.get(numero),imagenes.get(i));
-			numero=(int) (rnd.nextDouble() *filas*columnas);
-			while (numeros.contains(numero)){
-				 numero=(int) (rnd.nextDouble() *filas*columnas);
-			}
-			numeros.add(numero);
-			relaciones.put(botones.get(numero),imagenes.get(i));
-
-			}
-		}
+	}
 	
 	
 	private void elementosMenu(){
@@ -301,9 +284,9 @@ public class ConcentreseGUI extends JFrame{
 	private void jugando(JButton i){
 		if (!elegidos.contains(i)){
 			//String nombreArchivo=imagenes.get(numero)
-			String nombreArchivo=relaciones.get(i);
-			ImageIcon icono=new ImageIcon(nombreArchivo);
+			//String nombreArchivo=relaciones.get(i);
 			JLabel panel=new JLabel();
+			ImageIcon icono=new ImageIcon("1.jpg");
 			panel.setIcon(icono);
 			i.add(panel);
 			String nombreTurno=concentrese.turno();
@@ -316,7 +299,7 @@ public class ConcentreseGUI extends JFrame{
 				index=2;
 			}
 			if (concentrese.existeFicha1()){
-				concentrese.tomarFicha2(relaciones.get(i));
+				concentrese.tomarFicha2(imagenes.get(0));
 				if(!concentrese.ok){
 					ficha1.removeAll();
 					ficha1.setBackground(null);
@@ -333,7 +316,7 @@ public class ConcentreseGUI extends JFrame{
 					elegidos.add(i);
 				}
 			}else{
-				concentrese.tomarFicha1(relaciones.get(i));
+				concentrese.tomarFicha1(imagenes.get(0));
 				ficha1=i;
 			}
 		}
