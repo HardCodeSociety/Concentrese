@@ -85,15 +85,33 @@ public class PartidaTest {
         assertEquals("No es el ganador",pardo,partida.ganador());
         respuesta=partida.escoger("casa","casa");
         assertEquals("prueba",1,partida.puntajes()[0]);
-         assertEquals("prueba",0,partida.puntajes()[1]);
-        assertEquals("No es el ganador",null,partida.turno());
+        assertEquals("prueba",1,partida.puntajes()[1]);
+        assertEquals("No es el ganador",null,partida.ganador());
     }
     @Test
     public void deberiaCambiarElNombreAUnJugador(){
         Jugador pardo=new Jugador("Pardo");
         Jugador vaca=new Jugador("Vaca");
         Partida partida=new Partida(pardo,vaca);
-        partida.cambiarNombre("Andres",0);
+        partida.cambiarNombre("Andres",1);
         assertEquals("No cambia nombre","Andres",partida.nombres()[0]);
+    }
+    @Test
+    public void deberiaRetornarElNombreDeLosJugadores(){
+        Jugador pardo=new Jugador("Pardo");
+        Jugador vaca=new Jugador("Vaca");
+        Partida partida=new Partida(pardo,vaca);
+        assertEquals("No cambia nombre","Pardo",partida.nombres()[0]);
+        assertEquals("No cambia nombre","Vaca",partida.nombres()[1]);
+    }
+    @Test
+    public void deberiaRetornarLosPuntajes(){
+        Jugador pardo=new Jugador("Pardo");
+        Jugador vaca=new Jugador("Vaca");
+        Partida partida=new Partida(pardo,vaca);
+        boolean respuesta=partida.escoger("casa","casa");
+        assertEquals("No es el ganador",pardo,partida.ganador());
+        assertEquals("prueba",1,partida.puntajes()[0]);
+        assertEquals("prueba",0,partida.puntajes()[1]);  
     }
 }
