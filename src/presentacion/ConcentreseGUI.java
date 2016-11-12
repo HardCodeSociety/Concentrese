@@ -322,8 +322,6 @@ public class ConcentreseGUI extends JFrame{
 				concentrese.tomarFicha1(imagenes.get(botones.indexOf(i)))	;
 				ficha1=i;
 			}
-		}else if(ficha1==i){
-			
 		}
 	}
 }
