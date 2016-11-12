@@ -7,7 +7,8 @@ import java.awt.event.*;
 import java.lang.Thread;
 import java.io.*;
 import java.util.*;
-
+import java.lang.*;
+import java.net.URL;
 import aplicacion.*;
 public class ConcentreseGUI extends JFrame{
 	private Concentrese concentrese;
@@ -49,10 +50,10 @@ public class ConcentreseGUI extends JFrame{
 	private int filas=8;
 	private int columnas=8;
 	private ArrayList<JButton> botones;
-	private ArrayList<String> imagenes;
 	private ArrayList<JButton> elegidos;
 	private JButton ficha1;
-	private HashMap<JButton,String>  relaciones;
+	private HashMap<Integer,String> imagenes;
+	private ArrayList<JButton> botonesElegir;
 	
 	//Elementos Botones
 	private JButton reiniciar;
@@ -128,13 +129,6 @@ public class ConcentreseGUI extends JFrame{
 					}
 				}	
 			);
-		reiniciar.addActionListener(
-				new ActionListener(){
-					public void actionPerformed(ActionEvent e){
-						reiniciar();
-					}
-				}
-			);
 		for(JButton i:botones){
 			i.addActionListener(
 				new ActionListener(){
@@ -146,19 +140,8 @@ public class ConcentreseGUI extends JFrame{
 
 		};
 	}
-	public void reiniciar(){
-		if(JOptionPane.showConfirmDialog(null, "Estas seguro de reiniciar el juego?")== JOptionPane.OK_OPTION){
-			puntaje1.setText("0");
-			puntaje1.setEditable(false);
-			puntaje2.setText("0");
-			puntaje2.setEditable(false);
-			//jugador1.setPuntaje(0);
-			//jugador2.setPuntaje(0);
-			for(JButton but: elegidos){
-				but.setBackground(null);
-			}
-		}	
-	}
+
+
 	public void cerrarVentana(){
 			if(JOptionPane.showConfirmDialog(null, "Estas seguro?")== JOptionPane.OK_OPTION){
 							setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -257,18 +240,25 @@ public class ConcentreseGUI extends JFrame{
 	private void refresque(){
 		elegidos= new ArrayList<JButton>();
 		botones = new ArrayList<JButton>();
+		botonesElegir= new ArrayList<JButton>();
 		for(int j=0;j<columnas;j++)
 			for (int i=0;i<filas;i++){
 				JButton boton=new JButton();
 				tablero.add(boton);
 				botones.add(boton);
+				botonesElegir.add(boton);
 		}
 	}
 	private void imagenes(){
 		Random rnd = new Random();
-		imagenes=new ArrayList<String>();
-		for (int i=0;i<50;i++){
-			imagenes.add(Integer.toString(i)+".jpg");
+		imagenes =new HashMap<Integer,String>();
+		for (int i=0;i<(filas*columnas/2);i++){
+			int indice=(int) (rnd.nextDouble() * (botonesElegir.size()-1));
+			imagenes.put(botones.indexOf(botonesElegir.get(indice)),"imagenes/"+Integer.toString(i)+".jpg");
+			botonesElegir.remove(indice);
+			indice=(int) (rnd.nextDouble() * (botonesElegir.size()-1));
+			imagenes.put(botones.indexOf(botonesElegir.get(indice)),"imagenes/"+Integer.toString(i)+".jpg");
+			botonesElegir.remove(indice);
 		}
 	}
 	
@@ -299,25 +289,20 @@ public class ConcentreseGUI extends JFrame{
 		setLocation(xEsquina, yEsquina);
 		
 	}
-	private void jugando(JButton i){
-		if (!elegidos.contains(i)){
-			//String nombreArchivo=imagenes.get(numero)
-			//String nombreArchivo=relaciones.get(i);
+	private void jugando(JButton i){ 
+		if (!elegidos.contains(i)&&ficha1!=i){
 			JLabel panel=new JLabel();
-			ImageIcon icono=new ImageIcon("1.jpg");
+			ImageIcon icono=new ImageIcon(imagenes.get(botones.indexOf(i)));
 			panel.setIcon(icono);
 			i.add(panel);
 			String nombreTurno=concentrese.turno();
-			int index;
 			if (nombreTurno==nombreJugador1){
 				i.setBackground(color1);
-				index=1;
 			}else{
 				i.setBackground(color2);
-				index=2;
 			}
 			if (concentrese.existeFicha1()){
-				concentrese.tomarFicha2(imagenes.get(0));
+				concentrese.tomarFicha2(imagenes.get(botones.indexOf(i)));
 				if(!concentrese.ok){
 					ficha1.removeAll();
 					ficha1.setBackground(null);
@@ -334,9 +319,11 @@ public class ConcentreseGUI extends JFrame{
 					elegidos.add(i);
 				}
 			}else{
-				concentrese.tomarFicha1(imagenes.get(0));
+				concentrese.tomarFicha1(imagenes.get(botones.indexOf(i)))	;
 				ficha1=i;
 			}
+		}else if(ficha1==i){
+			
 		}
 	}
 }
