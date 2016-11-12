@@ -5,9 +5,12 @@ import java.util.*;
 *Clase Concentrese
 **/
 public class Concentrese {
-    Jugador jugador1;
-    Jugador jugador2;
-    Partida partida;
+    private Jugador jugador1;
+    private Jugador jugador2;
+    private String ficha1;
+    private String ficha2;
+    private Partida partida;
+    public boolean ok;
      /**
     *Constructor de Concentrese
     **/
@@ -15,6 +18,20 @@ public class Concentrese {
         jugador1=new Jugador("Pardo");
         jugador2=new Jugador("Vaca");
         partida=new Partida(jugador1,jugador2);
+        ficha1=null;
+        ficha2=null;
+        ok=false;
+    }
+    public void tomarFicha1(String nombreFicha){
+        ficha1=nombreFicha;
+    }
+    public void tomarFicha2(String nombreFicha){
+        if (ficha1!=null)
+            ficha2=nombreFicha;
+            escoger();
+    }
+    public boolean existeFicha1(){
+        return(ficha1!=null?true:false);
     }
     /**
     *Permite al jugador en turno escoger un par de figuras y valida si estas son iguales o no ,si lo son aumenta el puntaje
@@ -22,8 +39,11 @@ public class Concentrese {
     *@param String ficha2
     *@return boolean respuesta 
     **/
-    public boolean escoger(String ficha1,String ficha2){
-        return partida.escoger(ficha1,ficha2);
+    private void escoger(){
+         partida.escoger(ficha1,ficha2);
+         ficha1=null;
+         ficha2=null;
+         this.ok=partida.ok;
     }
      /**
     *Revela el jugador ganador en el momento

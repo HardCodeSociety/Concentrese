@@ -4,8 +4,10 @@ import java.util.*;
 *Clase Partida
 **/
 public class Partida{
-    ArrayList<Jugador> jugadores;
-    Jugador turno;
+    private ArrayList<Jugador> jugadores;
+    private Jugador turno;
+    public boolean ok;
+
     /**
     *Constructor de Partida
     **/
@@ -14,6 +16,7 @@ public class Partida{
         jugadores.add(jugador1);
         jugadores.add(jugador2);
         turno=jugador1;
+        ok=false;
     }
     /**
     *Permite al jugador en turno escoger un par de figuras y valida si estas son iguales o no ,si lo son aumenta el puntaje
@@ -21,16 +24,16 @@ public class Partida{
     *@param String ficha2
     *@return boolean respuesta 
     **/
-    public boolean escoger(String ficha1,String ficha2){
-        boolean correcto=false;
+    public void escoger(String ficha1,String ficha2){
         if (ficha1==ficha2){
-            correcto=true;
             turno.aumentaPuntaje();
-        }
+            ok=true;
+        }else ok=false;
         int index=jugadores.indexOf(turno);
         if (index==0)turno=jugadores.get(1);
         else turno=jugadores.get(0);
-        return correcto;
+        ficha1=null;
+        ficha2=null;
     }
     /**
     *Revela el jugador ganador en el momento

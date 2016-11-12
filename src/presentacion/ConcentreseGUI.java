@@ -8,8 +8,9 @@ import java.lang.Thread;
 import java.io.*;
 import java.util.*;
 
-//import aplicacion.*;
+import aplicacion.*;
 public class ConcentreseGUI extends JFrame{
+	private Concentrese concentrese;
 	//Menu
 	private JMenuBar barMenu;
 	
@@ -48,6 +49,10 @@ public class ConcentreseGUI extends JFrame{
 	private int filas=8;
 	private int columnas=8;
 	private ArrayList<JButton> botones;
+	private ArrayList<String> imagenes;
+	private ArrayList<JButton> elegidos;
+	private JButton ficha1;
+	private HashMap<JButton,String>  relaciones;
 	
 	//Elementos Botones
 	private JButton reiniciar;
@@ -60,7 +65,7 @@ public class ConcentreseGUI extends JFrame{
 	private ConcentreseGUI(){
 		prepareElementos();
 		prepareAcciones	();
-		//concentrese= new Concentrese();
+		concentrese= new Concentrese();
 		//inicie();
 	}
 
@@ -123,6 +128,16 @@ public class ConcentreseGUI extends JFrame{
 					}
 				}	
 			);
+		for(JButton i:botones){
+			i.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						jugando(i);
+					}
+				}
+			);
+
+		};
 	}
 
 
@@ -204,6 +219,7 @@ public class ConcentreseGUI extends JFrame{
 		tablero.setBorder(BorderFactory.createEmptyBorder(5,300,5,300));
 		tablero.setLayout(new GridLayout(filas,columnas,1,1));
 		refresque();
+		imagenes();
 		panelTablero.add(tablero);
 		add(panelTablero,BorderLayout.CENTER);
 	}
@@ -221,6 +237,7 @@ public class ConcentreseGUI extends JFrame{
 		
 	}
 	private void refresque(){
+		elegidos= new ArrayList<JButton>();
 		botones = new ArrayList<JButton>();
 		for(int j=0;j<columnas;j++)
 			for (int i=0;i<filas;i++){
@@ -229,6 +246,30 @@ public class ConcentreseGUI extends JFrame{
 				botones.add(boton);
 		}
 	}
+	private void imagenes(){
+		Random rnd = new Random();
+		imagenes=new ArrayList<String>();
+		for (int i=0;i<50;i++){
+			imagenes.add(Integer.toString(i)+".jpg");
+		}
+		relaciones=new HashMap<JButton,String>();
+		ArrayList<Integer> numeros=new ArrayList<Integer>(); 
+		for (int i=0;i<50;i++){
+			int numero=(int) (rnd.nextDouble()* filas*columnas);
+			while (numeros.contains(numero)){
+				 numero=(int) (rnd.nextDouble()* filas*columnas);
+			}
+			numeros.add(numero);
+			relaciones.put(botones.get(numero),imagenes.get(i));
+			numero=(int) (rnd.nextDouble() *filas*columnas);
+			while (numeros.contains(numero)){
+				 numero=(int) (rnd.nextDouble() *filas*columnas);
+			}
+			numeros.add(numero);
+			relaciones.put(botones.get(numero),imagenes.get(i));
+
+			}
+		}
 	
 	
 	private void elementosMenu(){
@@ -256,6 +297,46 @@ public class ConcentreseGUI extends JFrame{
 		int yEsquina= (screen.height - getSize().height) /2;
 		setLocation(xEsquina, yEsquina);
 		
+	}
+	private void jugando(JButton i){
+		if (!elegidos.contains(i)){
+			//String nombreArchivo=imagenes.get(numero)
+			String nombreArchivo=relaciones.get(i);
+			ImageIcon icono=new ImageIcon(nombreArchivo);
+			JLabel panel=new JLabel();
+			panel.setIcon(icono);
+			i.add(panel);
+			String nombreTurno=concentrese.turno();
+			int index;
+			if (nombreTurno==nombreJugador1){
+				i.setBackground(color1);
+				index=1;
+			}else{
+				i.setBackground(color2);
+				index=2;
+			}
+			if (concentrese.existeFicha1()){
+				concentrese.tomarFicha2(relaciones.get(i));
+				if(!concentrese.ok){
+					ficha1.removeAll();
+					ficha1.setBackground(null);
+					i.removeAll();	
+					i.setBackground(null);
+				}else{
+					puntaje1.setText(Integer.toString(concentrese.puntajes()[0]));
+					puntaje1.setEditable(false);
+					puntaje2.setText(Integer.toString(concentrese.puntajes()[1]));
+					puntaje2.setEditable(false);
+					botones.remove(ficha1);
+					botones.remove(i);
+					elegidos.add(ficha1);
+					elegidos.add(i);
+				}
+			}else{
+				concentrese.tomarFicha1(relaciones.get(i));
+				ficha1=i;
+			}
+		}
 	}
 }
 

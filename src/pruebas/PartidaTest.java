@@ -28,8 +28,8 @@ public class PartidaTest {
         Jugador pardo=new Jugador("Pardo");
         Jugador vaca=new Jugador("Vaca");
         Partida partida=new Partida(pardo,vaca);
-        boolean respuesta=partida.escoger("casa","casa");
-        assertTrue("Si son iguales",respuesta);
+        partida.escoger("casa","casa");
+        assertEquals("prueba",1,partida.puntajes()[0]);
     }
     @Test
     public void deberiaRetornarFalseSiLasNoFichaSonCorrectas(){
@@ -37,7 +37,7 @@ public class PartidaTest {
         Jugador vaca=new Jugador("Vaca");
         Partida partida=new Partida(pardo,vaca);
         boolean respuesta=partida.escoger("casa","carro");
-        assertTrue("Si son iguales",!respuesta);
+        assertEquals("prueba",0,partida.puntajes()[0]);
     }
     @Test
     public void deberiaCambiarDeTurnoDespuesDeCadaIntento(){
