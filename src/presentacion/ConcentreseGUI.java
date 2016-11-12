@@ -100,6 +100,13 @@ public class ConcentreseGUI extends JFrame{
 				}
 			}
 		);
+		redimensionar.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						redimensionar();
+					}
+				}
+			);
 		salir.addActionListener(
 			new  ActionListener(){
 				public void actionPerformed(ActionEvent e){
@@ -157,6 +164,28 @@ public class ConcentreseGUI extends JFrame{
 				but.setBackground(null);
 			}
 		}	
+	}
+	public void redimensionar(){
+		filas=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de Filas"));
+		columnas=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de Columnas"));
+		if( filas<0 ||columnas<0 ){
+			JOptionPane.showMessageDialog(null, "El valor es incorrecto","WARNING_MESSAGE", JOptionPane.WARNING_MESSAGE);
+			redimensionar();
+		}
+		concentrese.reiniciar();
+		puntaje1.setText("0");
+		puntaje1.setEditable(false);
+		puntaje2.setText("0");
+		puntaje2.setEditable(false);
+		tablero= new JPanel();
+		tablero.setBorder(BorderFactory.createEmptyBorder(5,300,5,300));
+		tablero.setLayout(new GridLayout(filas,columnas,1,1));
+		refresque();
+		imagenes();
+		panelTablero.add(tablero);
+		for(JButton but: elegidos){
+			but.setBackground(null);
+		}
 	}
 	public void cerrarVentana(){
 			if(JOptionPane.showConfirmDialog(null, "Estas seguro?")== JOptionPane.OK_OPTION){
