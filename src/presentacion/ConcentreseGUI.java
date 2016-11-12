@@ -128,6 +128,13 @@ public class ConcentreseGUI extends JFrame{
 					}
 				}	
 			);
+		reiniciar.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						reiniciar();
+					}
+				}
+			);
 		for(JButton i:botones){
 			i.addActionListener(
 				new ActionListener(){
@@ -139,8 +146,19 @@ public class ConcentreseGUI extends JFrame{
 
 		};
 	}
-
-
+	public void reiniciar(){
+		if(JOptionPane.showConfirmDialog(null, "Estas seguro de reiniciar el juego?")== JOptionPane.OK_OPTION){
+			puntaje1.setText("0");
+			puntaje1.setEditable(false);
+			puntaje2.setText("0");
+			puntaje2.setEditable(false);
+			//jugador1.setPuntaje(0);
+			//jugador2.setPuntaje(0);
+			for(JButton but: elegidos){
+				but.setBackground(null);
+			}
+		}	
+	}
 	public void cerrarVentana(){
 			if(JOptionPane.showConfirmDialog(null, "Estas seguro?")== JOptionPane.OK_OPTION){
 							setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

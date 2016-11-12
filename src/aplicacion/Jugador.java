@@ -35,6 +35,9 @@ public class Jugador{
     public void aumentaPuntaje(){
         puntaje+=1;
     }
+    public void setPuntaje(int npuntaje){
+    	puntaje=npuntaje;
+    }
     /**
     *Retorna el puntaje del jugador
     **/
