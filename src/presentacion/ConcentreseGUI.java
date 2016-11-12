@@ -8,8 +8,9 @@ import java.lang.Thread;
 import java.io.*;
 import java.util.*;
 
-//import aplicacion.*;
+import aplicacion.*;
 public class ConcentreseGUI extends JFrame{
+	private Concentrese concentrese;
 	//Menu
 	private JMenuBar barMenu;
 	
@@ -48,6 +49,10 @@ public class ConcentreseGUI extends JFrame{
 	private int filas=8;
 	private int columnas=8;
 	private ArrayList<JButton> botones;
+	private ArrayList<String> imagenes;
+	private ArrayList<JButton> elegidos;
+	private JButton ficha1;
+	private HashMap<JButton,String>  relaciones;
 	
 	//Elementos Botones
 	private JButton reiniciar;
@@ -60,7 +65,7 @@ public class ConcentreseGUI extends JFrame{
 	private ConcentreseGUI(){
 		prepareElementos();
 		prepareAcciones	();
-		//concentrese= new Concentrese();
+		concentrese= new Concentrese();
 		//inicie();
 	}
 
@@ -123,6 +128,16 @@ public class ConcentreseGUI extends JFrame{
 					}
 				}	
 			);
+		for(JButton i:botones){
+			i.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						jugando(i);
+					}
+				}
+			);
+
+		};
 	}
 
 
@@ -160,14 +175,18 @@ public class ConcentreseGUI extends JFrame{
 		String[] options={"Pardo","Vaca","Cancelar"};
 		int desicion = JOptionPane.showOptionDialog(null, "Cual jugador desea modificar ?","Elige una opcion",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,null); 
 		if (desicion ==0){ 
+			Color originalColor=color1;
 			color1=cambiarColores.showDialog(null,"selecione un color",Color.gray);
+			if(color1==null)color1=originalColor;
 			if (!color1.equals(color2)){
 				jugador1.setForeground(color1);
 			}else{
 				JOptionPane.showMessageDialog(null,"El jugador "+nombreJugador2+" ya tiene asignado este color");
 			}
 		}else if(desicion==1){
-			color2=cambiarColores.showDialog(null,"selecione un color",Color.gray);			
+			Color originalColor=color1;
+			color2=cambiarColores.showDialog(null,"selecione un color",Color.gray);
+			if(color1==null)color1=originalColor;			
 			if (!color1.equals(color2)){
 				jugador2.setForeground(color2);
 			}else{
@@ -200,6 +219,7 @@ public class ConcentreseGUI extends JFrame{
 		tablero.setBorder(BorderFactory.createEmptyBorder(5,300,5,300));
 		tablero.setLayout(new GridLayout(filas,columnas,1,1));
 		refresque();
+		imagenes();
 		panelTablero.add(tablero);
 		add(panelTablero,BorderLayout.CENTER);
 	}
@@ -217,12 +237,20 @@ public class ConcentreseGUI extends JFrame{
 		
 	}
 	private void refresque(){
+		elegidos= new ArrayList<JButton>();
 		botones = new ArrayList<JButton>();
 		for(int j=0;j<columnas;j++)
 			for (int i=0;i<filas;i++){
 				JButton boton=new JButton();
 				tablero.add(boton);
 				botones.add(boton);
+		}
+	}
+	private void imagenes(){
+		Random rnd = new Random();
+		imagenes=new ArrayList<String>();
+		for (int i=0;i<50;i++){
+			imagenes.add(Integer.toString(i)+".jpg");
 		}
 	}
 	
@@ -252,6 +280,46 @@ public class ConcentreseGUI extends JFrame{
 		int yEsquina= (screen.height - getSize().height) /2;
 		setLocation(xEsquina, yEsquina);
 		
+	}
+	private void jugando(JButton i){
+		if (!elegidos.contains(i)){
+			//String nombreArchivo=imagenes.get(numero)
+			//String nombreArchivo=relaciones.get(i);
+			JLabel panel=new JLabel();
+			ImageIcon icono=new ImageIcon("1.jpg");
+			panel.setIcon(icono);
+			i.add(panel);
+			String nombreTurno=concentrese.turno();
+			int index;
+			if (nombreTurno==nombreJugador1){
+				i.setBackground(color1);
+				index=1;
+			}else{
+				i.setBackground(color2);
+				index=2;
+			}
+			if (concentrese.existeFicha1()){
+				concentrese.tomarFicha2(imagenes.get(0));
+				if(!concentrese.ok){
+					ficha1.removeAll();
+					ficha1.setBackground(null);
+					i.removeAll();	
+					i.setBackground(null);
+				}else{
+					puntaje1.setText(Integer.toString(concentrese.puntajes()[0]));
+					puntaje1.setEditable(false);
+					puntaje2.setText(Integer.toString(concentrese.puntajes()[1]));
+					puntaje2.setEditable(false);
+					botones.remove(ficha1);
+					botones.remove(i);
+					elegidos.add(ficha1);
+					elegidos.add(i);
+				}
+			}else{
+				concentrese.tomarFicha1(imagenes.get(0));
+				ficha1=i;
+			}
+		}
 	}
 }
 
