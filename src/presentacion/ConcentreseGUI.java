@@ -168,7 +168,7 @@ public class ConcentreseGUI extends JFrame{
 	public void redimensionar(){
 		filas=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de Filas"));
 		columnas=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de Columnas"));
-		if( filas<0 ||columnas<0 ){
+		if( filas<0 ||columnas<0 ||((filas*columnas)%2)!=0 ){
 			JOptionPane.showMessageDialog(null, "El valor es incorrecto","WARNING_MESSAGE", JOptionPane.WARNING_MESSAGE);
 			redimensionar();
 		}
