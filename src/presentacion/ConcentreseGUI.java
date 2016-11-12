@@ -148,9 +148,10 @@ public class ConcentreseGUI extends JFrame{
 	}
 	public void reiniciar(){
 		if(JOptionPane.showConfirmDialog(null, "Estas seguro de reiniciar el juego?")== JOptionPane.OK_OPTION){
-			puntaje1.setText(Integer.toString('0'));
+			concentrese.reiniciar();
+			puntaje1.setText("0");
 			puntaje1.setEditable(false);
-			puntaje2.setText(Integer.toString('0'));
+			puntaje2.setText("0");
 			puntaje2.setEditable(false);
 			for(JButton but: elegidos){
 				but.setBackground(null);
