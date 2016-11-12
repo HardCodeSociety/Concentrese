@@ -2,7 +2,7 @@ package aplicacion;
 import java.util.*;
 
 /**
- * name
+ * David Vaca && Felipe Pardo
  */
 public class Concentrese {
     Jugador jugador1;
