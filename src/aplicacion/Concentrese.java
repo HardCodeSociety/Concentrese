@@ -79,4 +79,10 @@ public class Concentrese {
     public int[] puntajes(){
         return partida.puntajes();
     }
+    public void reiniciar(){
+    	jugador1.setPuntaje(0);
+    	jugador2.setPuntaje(0);
+    	ficha1=null;
+    	ficha2=null;
+    }
 }
