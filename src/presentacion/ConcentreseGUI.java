@@ -101,6 +101,13 @@ public class ConcentreseGUI extends JFrame{
 				}
 			}
 		);
+		reiniciar.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						reiniciar();
+					}
+				}
+		);
 		redimensionar.addActionListener(
 				new ActionListener(){
 					public void actionPerformed(ActionEvent e){
@@ -154,10 +161,12 @@ public class ConcentreseGUI extends JFrame{
 			puntaje1.setEditable(false);
 			puntaje2.setText("0");
 			puntaje2.setEditable(false);
-			for(JButton but: elegidos){
+			for(JButton but: botones){
 				but.setBackground(null);
+				but.setIcon(null);
 			}
 			prepareAcciones();
+			panelTablero.updateUI();
 		}	
 	}
 	public void redimensionar(){
