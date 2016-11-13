@@ -25,7 +25,7 @@ public class Partida{
     *@return boolean respuesta 
     **/
     public void escoger(String ficha1,String ficha2){
-        if (ficha1==ficha2){
+        if (ficha1.equals(ficha2)){
             turno.aumentaPuntaje();
             ok=true;
         }else ok=false;

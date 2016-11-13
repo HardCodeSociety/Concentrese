@@ -283,6 +283,8 @@ public class ConcentreseGUI extends JFrame{
 		for(int j=0;j<columnas;j++)
 			for (int i=0;i<filas;i++){
 				JButton boton=new JButton();
+				JLabel panel=new JLabel();
+				boton.add(panel);
 				tablero.add(boton);
 				botones.add(boton);
 				botonesElegir.add(boton);
@@ -332,8 +334,7 @@ public class ConcentreseGUI extends JFrame{
 		if (!elegidos.contains(i)&&ficha1!=i){
 			JLabel panel=new JLabel();
 			ImageIcon icono=new ImageIcon(imagenes.get(botones.indexOf(i)));
-			panel.setIcon(icono);
-			i.add(panel);
+			i.setIcon(icono);
 			String nombreTurno=concentrese.turno();
 			if (nombreTurno==nombreJugador1){
 				i.setBackground(color1);
@@ -343,10 +344,17 @@ public class ConcentreseGUI extends JFrame{
 			if (concentrese.existeFicha1()){
 				concentrese.tomarFicha2(imagenes.get(botones.indexOf(i)));
 				if(!concentrese.ok){
-					ficha1.removeAll();
-					ficha1.setBackground(null);
-					i.removeAll();	
-					i.setBackground(null);
+					try{
+					Thread.currentThread();	
+					Thread.sleep(1000);//sleep for 1000 ms	//Este retraso si se nota al ejecutar el programa, pero pareceria que A.setVisible() y A.setOculto() son ejecutadas casi instantaneamente.
+					}catch(InterruptedException e){}
+					//ficha1.removeAll();
+					//ficha1.setBackground(null);
+					//i.removeAll();	
+					//i.setBackground(null);
+					//i.setIcon(null);
+					//ficha1.setIcon(null);
+					ficha1=null;
 				}else{
 					puntaje1.setText(Integer.toString(concentrese.puntajes()[0]));
 					puntaje1.setEditable(false);
@@ -356,11 +364,13 @@ public class ConcentreseGUI extends JFrame{
 					botones.remove(i);
 					elegidos.add(ficha1);
 					elegidos.add(i);
+					ficha1=null;
 				}
 			}else{
 				concentrese.tomarFicha1(imagenes.get(botones.indexOf(i)))	;
 				ficha1=i;
 			}
+			
 		}
 	}
 }
