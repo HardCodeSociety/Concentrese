@@ -140,6 +140,7 @@ public class ConcentreseGUI extends JFrame{
 			i.addActionListener(
 				new ActionListener(){
 					public void actionPerformed(ActionEvent e){
+						cambiaBoton(i);
 						jugando(i);
 					}
 				}
@@ -155,6 +156,7 @@ public class ConcentreseGUI extends JFrame{
 			puntaje2.setText("0");
 			puntaje2.setEditable(false);
 			for(JButton but: elegidos){
+				but.setIcon(null);
 				but.setBackground(null);
 			}
 			prepareAcciones();
@@ -329,28 +331,13 @@ public class ConcentreseGUI extends JFrame{
 	}
 	private void jugando(JButton i){ 
 		if (!elegidos.contains(i)&&ficha1!=i){
-			JLabel panel=new JLabel();
-			ImageIcon icono=new ImageIcon(imagenes.get(botones.indexOf(i)));
-			i.setIcon(icono);
-			String nombreTurno=concentrese.turno();
-			if (nombreTurno==nombreJugador1){
-				i.setBackground(color1);
-			}else{
-				i.setBackground(color2);
-			}
 			if (concentrese.existeFicha1()){
 				concentrese.tomarFicha2(imagenes.get(botones.indexOf(i)));
 				if(!concentrese.ok){
-					try{
-					Thread.currentThread();	
-					Thread.sleep(1000);//sleep for 1000 ms	//Este retraso si se nota al ejecutar el programa, pero pareceria que A.setVisible() y A.setOculto() son ejecutadas casi instantaneamente.
-					}catch(InterruptedException e){}
-					//ficha1.removeAll();
-					//ficha1.setBackground(null);
-					//i.removeAll();	
-					//i.setBackground(null);
-					//i.setIcon(null);
-					//ficha1.setIcon(null);
+					ficha1.setBackground(null);
+					i.setBackground(null);
+					i.setIcon(null);
+					ficha1.setIcon(null);
 					ficha1=null;
 				}else{
 					puntaje1.setText(Integer.toString(concentrese.puntajes()[0]));
@@ -369,6 +356,18 @@ public class ConcentreseGUI extends JFrame{
 			}
 			
 		}
+	}
+	private void cambiaBoton(JButton i){
+		JLabel panel=new JLabel();
+		ImageIcon icono=new ImageIcon(imagenes.get(botones.indexOf(i)));
+		i.setIcon(icono);
+		String nombreTurno=concentrese.turno();
+		if (nombreTurno==nombreJugador1){
+			i.setBackground(color1);
+		}else{
+			i.setBackground(color2);
+		}
+		i.updateUI();
 	}
 }
 
