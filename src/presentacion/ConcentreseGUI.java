@@ -162,18 +162,17 @@ public class ConcentreseGUI extends JFrame{
 			puntaje1.setEditable(false);
 			puntaje2.setText("0");
 			puntaje2.setEditable(false);
-<<<<<<< HEAD
 			for(JButton but: elegidos){
+				but.setBackground(null);
 				but.setIcon(null);
-=======
-			for(JButton but: botones){
->>>>>>> c8c75cadb9c8bf4dbdfe00c4aa3343510732977c
+			for(JButton buton: botones){
 				but.setBackground(null);
 				but.setIcon(null);
 			}
 			prepareAcciones();
 			panelTablero.updateUI();
-		}	
+			}	
+		}
 	}
 	public void redimensionar(){
 		int nfilas=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de Filas"));
@@ -370,6 +369,7 @@ public class ConcentreseGUI extends JFrame{
 			
 		}
 	}
+
 	private void cambiaBoton(JButton i){
 		JLabel panel=new JLabel();
 		ImageIcon icono=new ImageIcon(imagenes.get(botones.indexOf(i)));
